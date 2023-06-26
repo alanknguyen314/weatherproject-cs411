@@ -62,13 +62,14 @@
     
     {% load crispy_forms_tags %}
 
-
+    <div class="container py-5">
   <div class="card weather-item mb-4">
     <h3 class="card-header">User Information</h3>
     <div class="card-body">
         <p class="card-text"><b>Username: </b> {{ user.username }}</p>
         <p class="card-text"><b>Email: </b>{{ user.email }}</p>
+        <p class="card-text"><b>Password (SHA-256 encrypted): </b> {{user.password }}</p>
     </div>
 </div>
-
+</div>
 
