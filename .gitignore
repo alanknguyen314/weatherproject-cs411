@@ -1,0 +1,42 @@
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore the virtual environment
+venv/
+env/
+
+# Ignore generated media files
+media/
+
+# Ignore the static files directory (if managed outside of Django)
+static/
+
+# Ignore database files
+*.sqlite3
+
+# Ignore local settings file (if different from production)
+local_settings.py
+
+# Ignore IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore log files
+*.log
+
+# Ignore secret keys and sensitive information
+*.key
+*.pem
+*.env
+
+# Ignore cache and temporary files
+*.cache/
+*.tmp/
+
+# Ignore backup files
+*~
+*.bak
+
