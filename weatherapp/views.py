@@ -65,8 +65,15 @@ def index(request):
 """
 
 def index(request):
+
+    response = requests.get("https://ipgeolocation.abstractapi.com/v1/?api_key=13895e54fdb14b1d98a233c3b7ac6814").json()
+    #print(response.status_code)
+    #print(response.content)
+
+    city_data = response #city_data is json file.
+
     url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key=4WNC7AAWRUUG5JJZUDZKUMMKL'
-    city = 'London'
+    city = city_data["city"]
 
     r = requests.get(url.format(city=city)).json()
 
@@ -89,7 +96,8 @@ def index(request):
     else:
         city_weather = {}
 
-    context = {'city_weather': city_weather}
+    context = {'city_weather': city_weather,
+               'city_data': city_data,}
 
     if request.user.is_authenticated:
         context['user'] = request.user
@@ -97,6 +105,8 @@ def index(request):
     return render(request, 'weatherapp/weather.html', context)
 
     #return render(request, 'weatherapp/weather.html', context)
+
+
 
 """
 
