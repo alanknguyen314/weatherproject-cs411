@@ -63,6 +63,13 @@ def index(request):
     return render(request, 'weatherapp/weather.html', context)
 
 """
+def calculate_feels_like(temperature, windspeed):
+# Perform your calculation here
+    if windspeed >= 4:
+        feels_like = 'Cooler than Expected'
+    else:
+        feels_like = 'TBD'
+    return feels_like
 
 def index(request):
 
@@ -93,11 +100,14 @@ def index(request):
             'sunrise': r['days'][0]['sunrise'],
             'sunset': r['days'][0]['sunset'],
         }
+        feels_like = calculate_feels_like(r['days'][0]['temp'], r['days'][0]['windspeed'])
     else:
         city_weather = {}
+        feels_like = None
 
     context = {'city_weather': city_weather,
-               'city_data': city_data,}
+               'city_data': city_data,
+               'feels_like': feels_like}
 
     if request.user.is_authenticated:
         context['user'] = request.user
