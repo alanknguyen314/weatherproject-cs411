@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import register_request, login_request
-from .views import logout_request, index
+from .views import logout_request, index, profile
 
 
 urlpatterns = [
@@ -10,6 +10,6 @@ urlpatterns = [
     path("login", login_request, name="login"),
     path("logout", logout_request, name="logout"),
     path("weather", index, name="weather"),
-    path("profile", views.profile, name="profile"),
+    path("profile", profile, name="profile"),
     # your other paths...
 ]

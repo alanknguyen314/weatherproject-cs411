@@ -156,8 +156,6 @@ def logout_request(request):
     return redirect("weather")  # or wherever you want to redirect after logout
 
 
-
-
 @login_required
 def profile(request):
-    return render(request, 'weatherapp/weather.html')
+    return render(request, 'weatherapp/profile.html')
