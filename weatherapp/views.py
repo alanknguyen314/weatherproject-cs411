@@ -11,7 +11,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
+from datetime import datetime
 
+current_datetime = datetime.now()
+formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S')
 
 from . import forms
 
@@ -63,22 +66,87 @@ def index(request):
     return render(request, 'weatherapp/weather.html', context)
 
 """
-def calculate_feels_like(temperature, windspeed):
-# Perform your calculation here
-    if windspeed >= 4:
+def calculate_feels_like(d_temperature, d_windspeed, h_temperature, h_windspeed): 
+                        #or manybe make them ^ into a tuple to group better, your choice 
+    if d_windspeed >= 4:
         feels_like = 'Cooler than Expected'
     else:
         feels_like = 'TBD'
     return feels_like
 
 def index(request):
-
+    #toNote: below is very jank code, but it work, I will clean it up later, you can also change whatever you want
     response = requests.get("https://ipgeolocation.abstractapi.com/v1/?api_key=13895e54fdb14b1d98a233c3b7ac6814").json()
     #print(response.status_code)
     #print(response.content)
 
     city_data = response #city_data is json file.
+    api_key = '4WNC7AAWRUUG5JJZUDZKUMMKL'
 
+    #url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key={api_key}}'
+    url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}/{time}?unitGroup=us&key={api_key}'
+
+    # Request hourly weather data
+    #hourly_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key={api_key}&include=hours'
+    city = city_data["city"]
+    #daily_response = requests.get(daily_url.format(city=city, api_key = api_key)).json()
+    #hourly_response = requests.get(hourly_url.format(city=city, api_key = api_key)).json()
+    #print("HERE IS DAILY:", daily_response)
+    #print("HERE IS HOURLY:", hourly_response)
+    r = requests.get(url.format(city=city, time = formatted_datetime,  api_key=api_key)).json()
+    #print(r.get('hours'))
+    print(url.format(city=city, time = formatted_datetime,  api_key=api_key))
+    if r.get('days'):
+        #hourly_data = hourly_response['hours'][0]
+        d = r['days'][0]
+        h = d['hours'][0]
+
+        city_weather = {
+            'city': city,
+            'daily_temperature': d['temp'],
+            'daily_description': d['description'],
+            'daily_windspeed': d['windspeed'],
+            'daily_winddir': d['winddir'],
+            'daily_humidity': d['humidity'],
+            'daily_precip': d['precip'],
+            'daily_precipprob': r['days'][0]['precipprob'], #Ryann, please delete variables as you see fit
+            'daily_visibility': r['days'][0]['visibility'], #these are just here becuase they might be useful
+            'daily_cloudcover': r['days'][0]['cloudcover'], #same for the hourly ones, etc etc
+            'daily_dew': r['days'][0]['dew'],
+            'daily_sunrise': r['days'][0]['sunrise'],
+            'daily_sunset': r['days'][0]['sunset'],
+            #this is here to show a clear split between daily and hourly values
+            'hourly_temperature': d['hours'][0]['temp'],
+            #'hourly_description': d['hours'][0]['description'],
+            'hourly_windspeed': d['hours'][0]['windspeed'],
+            'hourly_winddir': d['hours'][0]['winddir'],
+            'hourly_humidity': d['hours'][0]['humidity'],
+            'hourly_precip': d['hours'][0]['precip'],
+            'hourly_precipprob': d['hours'][0]['precipprob'],
+            'hourly_visibility': d['hours'][0]['visibility'],
+            'hourly_cloudcover': h['cloudcover'],
+            'hourly_dew': h['dew'],
+            #'hourly_sunrise': h['sunrise'],
+            #'hourly_sunset': h['sunset'],
+        }
+
+        feels_like = calculate_feels_like(r['days'][0]['temp'], r['days'][0]['windspeed'], d['hours'][0]['temp'], d['hours'][0]['windspeed'])
+        #add variables you think work here :D
+    else:
+        city_weather = {}
+        feels_like = None
+
+    context = {'city_weather': city_weather,
+            'city_data': city_data,
+            'feels_like': feels_like}
+
+    if request.user.is_authenticated:
+        context['user'] = request.user
+
+    return render(request, 'weatherapp/weather.html', context)
+
+"""
+this is old api call:
     url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key=4WNC7AAWRUUG5JJZUDZKUMMKL'
     city = city_data["city"]
 
@@ -108,13 +176,7 @@ def index(request):
     context = {'city_weather': city_weather,
                'city_data': city_data,
                'feels_like': feels_like}
-
-    if request.user.is_authenticated:
-        context['user'] = request.user
-
-    return render(request, 'weatherapp/weather.html', context)
-
-    #return render(request, 'weatherapp/weather.html', context)
+"""
 
 
 
