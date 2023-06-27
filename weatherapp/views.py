@@ -19,54 +19,7 @@ formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S')
 
 from . import forms
 
-"""
 
-# THIS IS FOR OPENWEATHER API
-
-def index(request):
-    url = 'http://api.openweathermap.org/data/3.0/weather?q={}&units=imperial&appid=16b49cdde47946d45a6ca4e7897e04e2'
-    city = 'London'
-    
-    r = requests.get(url.format(city)).json()
-    print(r)
-
-    if r.get('main'):  # check if 'main' exists in the response
-        city_weather = {
-            'city': city,
-            'temperature': r['main']['temp'],
-            'description': r['weather'][0]['description'],
-            'icon': r['weather'][0]['icon'],
-        }
-    else:
-        city_weather = {}  # if 'main' does not exist, initialize an empty dict
-
-    context = {'city_weather': city_weather}
-
-    return render(request, 'weatherapp/weather.html', context)
-
-
-# PRELIMINARY visualcrossing weather forcast.    
-def index(request):
-    url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key=4WNC7AAWRUUG5JJZUDZKUMMKL'
-    city = 'London'
-
-    r = requests.get(url.format(city=city)).json()
-
-    if r.get('days'):
-        city_weather = {
-            'city': city,
-            'temperature': r['days'][0]['temp'],
-            'description': r['days'][0]['description'],
-            'icon': r['days'][0]['icon'],
-        }
-    else:
-        city_weather = {}
-
-    context = {'city_weather': city_weather}
-
-    return render(request, 'weatherapp/weather.html', context)
-
-"""
 def calculate_feels_like(d_temperature, d_windspeed, d_humidity, d_uvindex): 
                         #or manybe make them ^ into a tuple to group better, your choice 
     
@@ -183,61 +136,7 @@ def index(request):
 
     return render(request, 'weatherapp/weather.html', context)
 
-"""
-this is old api call:
-    url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=us&key=4WNC7AAWRUUG5JJZUDZKUMMKL'
-    city = city_data["city"]
 
-    r = requests.get(url.format(city=city)).json()
-
-    if r.get('days'):
-        city_weather = {
-            'city': city,
-            'temperature': r['days'][0]['temp'],
-            'description': r['days'][0]['description'],
-            'windspeed': r['days'][0]['windspeed'],
-            'winddir': r['days'][0]['winddir'],
-            'humidity': r['days'][0]['humidity'],
-            'precip': r['days'][0]['precip'],
-            'precipprob': r['days'][0]['precipprob'],
-            'visibility': r['days'][0]['visibility'],
-            'cloudcover': r['days'][0]['cloudcover'],
-            'dew': r['days'][0]['dew'],
-            'sunrise': r['days'][0]['sunrise'],
-            'sunset': r['days'][0]['sunset'],
-        }
-        feels_like = calculate_feels_like(r['days'][0]['temp'], r['days'][0]['windspeed'])
-    else:
-        city_weather = {}
-        feels_like = None
-
-    context = {'city_weather': city_weather,
-               'city_data': city_data,
-               'feels_like': feels_like}
-"""
-
-
-
-"""
-
-def register(request):
-  if request.method == "POST":
-    form = forms.UserRegisterForm(request.POST)
-    if form.is_valid():
-      form.save()
-      # cleaned data is a dictionary
-      username = form.cleaned_data.get('username')
-      messages.success(request, f"{username}, you're account is created, please login.")
-      return redirect('user-login')
-  else:
-    form = forms.UserRegisterForm()
-  return render(request, 'users/register.html', {'form': form})
-
-@login_required()
-def profile(request):
-  return render(request, 'users/profile.html')
-
-"""
 # handles registering process. Ask to launch prompt.
 def register_request(request):
     if request.method == "POST":
