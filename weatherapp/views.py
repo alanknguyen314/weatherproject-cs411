@@ -27,47 +27,67 @@ def calculate_feels_like(d_temperature, d_windspeed, d_humidity, d_uvindex):
     
     feels_like = ''
 
-    # Hot Day
+    # Convert d_humidity into int
+    d_humidity = d_humidity * 100
+    d_humidity = math.floor(d_humidity)
+
+    
+    # Case 1 - Hot Day
     if d_temperature >= 75:
 
+        # High UV
         if d_uvindex >= 7:
             feels_like += "High UV Index "
-             # High UV and humidity
-            if math.isclose(d_humidity, .40):
+            # High UV and humidity
+            if d_humidity >= 40:
                 feels_like += "and humidity may make temperatures feel warmer. "
-           # Only High UV
+
+                # High UV and humidity with breeze
+                if d_windspeed >= 7:
+                    feels_like += "Breeze may provide some relief."
+
+            # High UV only
             else:
                 feels_like += "may make temperatures feel warmer. " 
 
-        # Only high humidity
-        elif math.isclose(d_humidity, .40):
+                # High UV with breeze
+                if d_windspeed >= 7:
+                    feels_like += "Breeze may provide some relief."
+
+        # High humidity
+        elif d_humidity >= 40:
+            
             feels_like += "High humidity may make temperatures feel warmer. "
 
-        # High windspeed
-        if d_windspeed >= 7:
-                feels_like += "Breeze may provide some relief against hot temperatures."
+            # High humidity with breeze
+            if d_windspeed >= 7:
+                    feels_like += "Breeze may provide some relief."
 
-        # No wind, humidity, or UV index
-        elif not math.isclose(d_humidity, .40): 
-            if d_uvindex < 7:
-                feels_like = "Temperature reflects outside conditions."
+        # Breeze only
+        elif d_windspeed >= 7:
+            feels_like = "Breeze may provide some relief against hot temperatures."
+        
+        # No other weather factors
+        else: 
+            feels_like = "Temperature reflects outside conditions."
 
-    # Case 2 - Cold/normal day
+    # Cold/normal day
     else: 
-        # Some wind
+
+        # Breeze
         if d_windspeed >= 7:
             feels_like += "Breeze may make temperatures feel slightly cooler. "
-          
-        # Very high windspeed
+
+        # High wind speeds
         elif d_windspeed >= 15:
             feels_like += "High wind speeds make may temperatures feel cooler. "
 
-        # No wind
+        # No weather factors
         else: 
             feels_like = "Temperature reflects outside conditions."
 
     return feels_like 
-
+    
 """
 Calls Geolocation and Weather API
 """
