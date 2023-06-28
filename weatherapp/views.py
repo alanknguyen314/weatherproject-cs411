@@ -31,10 +31,10 @@ def calculate_feels_like(d_temperature, d_windspeed, d_humidity, d_uvindex):
     if d_temperature >= 75:
 
         if d_uvindex >= 7:
-            feels_like += "High UV Index"
+            feels_like += "High UV Index "
              # High UV and humidity
             if math.isclose(d_humidity, .40):
-                feels_like += " and humidity may make temperatures feel warmer. "
+                feels_like += "and humidity may make temperatures feel warmer. "
            # Only High UV
             else:
                 feels_like += "may make temperatures feel warmer. " 
