@@ -1,4 +1,4 @@
-# weatherproject
+# Weather APP PROJECT
  CS411 Weather Project (Alan, Michelle, Ryan)
 
 # Team Members
