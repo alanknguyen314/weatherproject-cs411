@@ -95,6 +95,8 @@ def index(request):
         city_weather = {
             'city': city,
             'daily_temperature': d['temp'],
+            'daily_max': d['tempmax'],
+            'daily_min': d['tempmin'],
             'daily_description': d['description'],
             'daily_windspeed': d['windspeed'],
             'daily_winddir': d['winddir'],
