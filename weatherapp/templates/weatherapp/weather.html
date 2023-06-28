@@ -14,6 +14,60 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
+  
+
+    <style>
+      .navbar-brand {
+        font-size: 20px;
+        
+      }
+
+      nav-item-nav-link {
+        font-size: 20px;
+      }
+
+      /* .weather-icon {
+        float: left;
+        position: relative;
+        width: 150px;
+        height: 150px;
+
+       max-height: .3px;
+        max-width: auto;
+        position: relative;
+        left: -100px;
+        top: -50px;
+         */
+        
+    
+
+    .text-left-mb-5 {
+      font-size: 35px;
+      padding-bottom: 15px;
+      color:rgb(0, 0, 0);
+
+      
+    }
+     .card-text {
+        font-size: 15px;
+
+      } 
+
+      .card-header {
+        font-size: 20px;
+        background-color:rgb(227, 236, 248);
+        
+    
+      }
+      .card-body {
+        background-color:rgb(227, 236, 248);
+        padding-bottom: 15px;
+      }
+     
+      
+
+    </style>
+
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,7 +92,7 @@
               <a
                 class="nav-link"
                 aria-current="page"
-                href="{% url 'weather' %}"
+                href="{% url 'weather' %}" style="font-size: 20px;"
                 >Weather</a
               >
             </li>
@@ -51,8 +105,8 @@
           >
           <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
           {% else %}
-          <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-          <a class="nav-item nav-link" href="{% url 'register' %}"
+          <a class="nav-item nav-link" href="{% url 'login' %}" style= "font-size: 20px;" >Login</a>
+          <a class="nav-item nav-link" href="{% url 'register' %}" style= "font-size: 20px;"
             >Register</a
           >
           {% endif %}
@@ -60,16 +114,23 @@
       </div>
     </nav>
 
-
+       <!-- <div class ="weather-icon">
+          <img src="https://www.creativefabrica.com/wp-content/uploads/2021/03/31/weather-icon-illustration03-Graphics-10205167-1-1-580x375.jpg" alt="Weather Icon">
+        </div> -->
 
     <div class="container py-5">
-        <h1 class="text-left mb-5">Weather in {{ city_weather.city }}</h1>
+
+        <h1 class="text-left-mb-5"> Today's Forecast for {{ city_weather.city }}, {{ city_data.region }} </h1>
+    
+
         <div class="weather-container">
 
             <div class="card weather-item mb-4">
-                <h4 class="card-header">Temperature</h4>
+                <h4 class="card-header"> Temperature</h4>
                 <div class="card-body">
-                    <p class="card-text">{{ city_weather.daily_temperature }}°F</p>
+                    <p class="card-text"> Average: {{ city_weather.daily_temperature }}°F</p>
+                    <p class="card-text"> High: {{ city_weather.daily_max }}°F</p>
+                    <p class="card-text"> Low: {{ city_weather.daily_min }}°F</p>
                 </div>
             </div>
 
@@ -79,23 +140,9 @@
                     <p class="card-text">{{ city_weather.daily_description }}</p>
                 </div>
             </div>
-
-            <div class="card weather-item mb-4">
-                <h4 class="card-header">Windspeed</h4>
-                <div class="card-body">
-                    <p class="card-text">{{ city_weather.daily_windspeed }} mph</p>
-                </div>
-            </div>
-
-            <div class="card weather-item mb-4">
-                <h4 class="card-header">City Data</h4>
-                <div class="card-body">
-                    <p class="card-text">{{ city_data.city }}</p>
-                </div>
-            </div>
             
             <div class="card weather-item mb4-">
-              <h4 class="card-header">How it Feels</h4>
+              <h4 class="card-header">Feels Like</h4>
               <div class="card-body">
                   <p class="card-text">{{ feels_like }}</p>
               </div>
