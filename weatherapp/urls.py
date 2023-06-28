@@ -14,8 +14,8 @@ urlpatterns = [
     path("logout", logout_request, name="logout"),
     path("weather", index, name="weather"),
     path("profile", profile, name="profile"),
-    path('accounts/', include('allauth.urls')),
-    path('logout-oauth', LogoutView.as_view()),
+    path('accounts/', include('allauth.urls')),# all the stuff with accounts/
+    path('logout-oauth', LogoutView.as_view()), #
     path('index', TemplateView.as_view(template_name="index.html"))
     # your other paths...
 ]
